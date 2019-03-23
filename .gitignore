@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# MacOS
+*.DS_Store
+
+# Test files
+*.txt
+
+# Enunciado
+*.pdf
+
+# VS Code
+*.vscode
