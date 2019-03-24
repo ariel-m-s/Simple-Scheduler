@@ -2,9 +2,10 @@
 
 #include <stdlib.h>
 
+// ENUMERATIONS
 
-// State enumeration
-enum state
+// Process state enumeration
+enum process_state
 {
   Ready,
   Running,
@@ -19,6 +20,7 @@ enum burst_type
   IO,
 };
 
+// STRUCTURES
 
 // Burst structure
 struct burst
@@ -36,9 +38,10 @@ struct process
   int t0; // start time
   Burst *bursts;
   int exec_time; // execution time
-  State state; // process state
+  ProcessState state;
 };
 
+// FUNCTIONS
 
 // Initializes a burst
 Burst *new_burst(BurstType type, int duration)
@@ -50,7 +53,7 @@ Burst *new_burst(BurstType type, int duration)
   return burst;
 }
 
-// Initializes a process
+// Initializes a Process
 Process *new_process(char *name, int pid, int priority, int t0, int n, int *durations)
 {
   Process *process = calloc(1, sizeof(Process));
@@ -74,10 +77,11 @@ Process *new_process(char *name, int pid, int priority, int t0, int n, int *dura
   return process;
 }
 
-// Frees a process
+// Frees a Process
 void free_process(Process *process)
 {
   free(process->name);
   free(process->bursts);
+
   free(process);
 }

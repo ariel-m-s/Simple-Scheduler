@@ -1,22 +1,26 @@
-// Burst type enumeration alias
+// ENUMERATIONS
+
+// Burst type enumeration [alias]
 typedef enum burst_type BurstType;
 
-// State enumeration alias
-typedef enum state State;
+// Process state enumeration [alias]
+typedef enum process_state ProcessState;
 
+// STRUCTURES
 
-// Burst structure alias
+// Burst structure [alias]
 typedef struct burst Burst;
 
-// Process strucutre alias
+// Process strucutre [alias]
 typedef struct process Process;
 
+// FUNCTIONS
 
-// Initializes a burst header
+// Initializes a burst [head]
 Burst *new_burst(BurstType type, int duration);
 
-// Initializes a process header
+// Initializes a Process [head]
 Process *new_process(char *name, int pid, int priority, int t0, int n, int *durations);
 
-// Frees a process header
+// Frees a Process [head]
 void free_process(Process *process);
