@@ -109,11 +109,13 @@ Process *cycle(Queue *queue)
 void free_queue(Queue *queue)
 {
   Node *node = queue->head; // first Node
+  Node *aux_node = NULL;
   // there are still Nodes to be freed
   while (node)
   {
-    node = node->next;
+    aux_node = node->next;
     free_node(node);
+    Node *node = aux_node;
   }
 
   free(queue);
