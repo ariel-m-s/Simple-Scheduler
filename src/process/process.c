@@ -1,4 +1,5 @@
 #include "process.h"
+#include "../stats/stats.h"
 
 #include <stdlib.h>
 
@@ -37,8 +38,8 @@ struct process
   int priority;
   int t0; // start time
   Burst *bursts;
-  int exec_time; // execution time
   ProcessState state;
+  Stats *stats;
 };
 
 // FUNCTIONS
@@ -62,8 +63,9 @@ Process *new_process(char *name, int pid, int priority, int t0, int n, int *dura
   process->pid = pid;
   process->priority = priority;
   process->t0 = t0;
-  process->exec_time = 0;
   process->state = Ready;
+
+  process->stats = new_stats();
 
   process->bursts = calloc(n, sizeof(Burst));
   for (int i = 0; i < n; i++)
@@ -82,6 +84,7 @@ void free_process(Process *process)
 {
   free(process->name);
   free(process->bursts);
+  free(process->stats);
 
   free(process);
 }
