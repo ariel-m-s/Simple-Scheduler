@@ -40,7 +40,7 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   {
     BurstType type = i % 2 ? IO : CPU;
     Burst *burst = new_burst(type, durations[i]);
-    process->bursts[i] = *burst;
+    process->bursts[i] = burst;
   }
 
   return process;

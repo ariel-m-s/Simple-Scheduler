@@ -37,7 +37,7 @@ typedef struct process
   int priority;
   int t0; // start time
   int N; // number of bursts (of both types)
-  Burst *bursts;
+  Burst **bursts;
   ProcessState state;
   int curr_burst;
   Stats *stats;
