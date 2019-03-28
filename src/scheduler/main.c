@@ -1,21 +1,19 @@
 #include "../io/io.h"
 
 #include <stdio.h>
+#include <stdbool.h>
+
+void sim_preemptive()
+{
+}
+
+void sim_nonpreemptive()
+{
+}
 
 int main()
 {
-  char *input_path = "data/test1.txt";
-  Queue *queue = load_queue(input_path, 1024);
-
-  Node *node = queue->head;
-  while(node)
-  {
-    printf("process->name: '%s", node->value->name);
-    node = node->next;
-  }
-
-  free_queue(queue);
-
+  Queue *queue = load_queue("data/test1.txt", 1024);
 
   return 0;
 }
