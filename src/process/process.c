@@ -23,8 +23,9 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   process->pid = 0;
   process->priority = priority;
   process->t0 = t0;
+  process->N = 2 * n - 1;
   process->state = Ready;
-  process->curr_burst_runtime = 0;
+  process->curr_burst = 0;
   process->stats = new_stats();
 
   // Assign the name
@@ -35,8 +36,8 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   }
 
   // Assign the bursts
-  process->bursts = calloc(n, sizeof(Burst));
-  for (int i = 0; i < n * 2 - 1; i++)
+  process->bursts = calloc(process->N, sizeof(Burst));
+  for (int i = 0; i < process->N; i++)
   {
     BurstType type = i % 2 ? IO : CPU;
     Burst *burst = new_burst(type, durations[i]);

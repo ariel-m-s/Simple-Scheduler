@@ -25,6 +25,7 @@ typedef struct burst
 {
   BurstType type;
   int duration;
+  int runtime;
 } Burst;
 
 // Process structure
@@ -34,9 +35,10 @@ typedef struct process
   int pid; // process id
   int priority;
   int t0; // start time
+  int N; // number of bursts (of both types)
   Burst *bursts;
   ProcessState state;
-  int curr_burst_runtime;
+  int curr_burst;
   Stats *stats;
 } Process;
 
