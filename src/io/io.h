@@ -6,7 +6,7 @@
 Process *load_process(char *str);
 
 // Reads a Process Queue from an input file [head]
-Queue *load(char *path, int max);
+Queue *load_queue(char *path, int max);
 
 // Writes the output file [head]
 void dump();

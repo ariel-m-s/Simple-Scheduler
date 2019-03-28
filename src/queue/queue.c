@@ -1,23 +1,7 @@
-#include "../process/process.h"
 #include "queue.h"
 
 #include <stdlib.h>
-
-// STRUCTURES
-
-// Node structure [def]
-struct node
-{
-  Process *value;
-  Node *next;
-};
-
-// Queue structure [def]
-struct queue
-{
-  Node *head;
-  Node *tail;
-};
+#include <stdio.h>
 
 // FUNCTIONS
 
@@ -35,10 +19,6 @@ Node *new_node(Process *process)
 void free_node(Node *node)
 {
   free_process(node->value);
-
-  free(node->value);
-  free(node->next);
-
   free(node);
 }
 
@@ -115,7 +95,7 @@ void free_queue(Queue *queue)
   {
     aux_node = node->next;
     free_node(node);
-    Node *node = aux_node;
+    node = aux_node;
   }
 
   free(queue);

@@ -1,4 +1,3 @@
-#include "../process/process.h"
 #include "../queue/queue.h"
 
 #include <stdio.h>
@@ -10,38 +9,67 @@
 // Reads a Process from an input file line [def]
 Process *load_process(char *str)
 {
+
+  printf("LOADING PROCESS...\n");
+
   char *delim = " ";
+
   char *ptr = strtok(str, delim);
 
-  while (ptr)
+  printf("name: '%s'\n", ptr);
+  char *name = ptr;
+
+  ptr = strtok(NULL, delim);
+
+  printf("priority: '%s'\n", ptr);
+  int priority = atoi(ptr);
+
+  ptr = strtok(NULL, delim);
+
+  printf("t0: '%s'\n", ptr);
+  int t0 = atoi(ptr);
+
+  ptr = strtok(NULL, delim);
+
+  printf("n: '%s'\n", ptr);
+  int n = atoi(ptr);
+
+  int durations[n * 2 - 1];
+  for (int i = 0; i < n * 2 - 1; i++)
   {
-    printf("'%s'\n", ptr);
     ptr = strtok(NULL, delim);
+
+    printf("duration #%d: '%s'\n", i, ptr);
+    durations[i] = atoi(str);
   }
 
   printf("\n");
+
+  return new_process(name, priority, t0, n, durations);
 }
 
 // Reads a Process Queue from an input file [def]
 Queue *load_queue(char *path, int max)
 {
+
   char str[max];
   FILE *fp = fopen(path, "r");
 
   if (!fp)
   {
     printf("Error al abrir '%s'", path);
-    return 1;
+    return NULL;
   }
 
+  Queue *queue = new_queue();
   while (fgets(str, max, fp))
   {
-    Process *process = load_process(str);
+    add(queue, load_process(str));
   }
 
   fclose(fp);
 
-  return 0;
+  return queue;
 }
 
 // Writes the output file [def]

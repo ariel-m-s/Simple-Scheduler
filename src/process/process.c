@@ -1,46 +1,7 @@
 #include "process.h"
-#include "../stats/stats.h"
 
 #include <stdlib.h>
-
-// ENUMERATIONS
-
-// Process state enumeration
-enum process_state
-{
-  Ready,
-  Running,
-  Waiting,
-  Finished,
-};
-
-// Burst type enumeration
-enum burst_type
-{
-  CPU,
-  IO,
-};
-
-// STRUCTURES
-
-// Burst structure
-struct burst
-{
-  BurstType type;
-  int duration;
-};
-
-// Process structure
-struct process
-{
-  char *name;
-  int pid; // process id
-  int priority;
-  int t0; // start time
-  Burst *bursts;
-  ProcessState state;
-  Stats *stats;
-};
+#include <stdio.h>
 
 // FUNCTIONS
 
@@ -55,12 +16,18 @@ Burst *new_burst(BurstType type, int duration)
 }
 
 // Initializes a Process
-Process *new_process(char *name, int pid, int priority, int t0, int n, int *durations)
+Process *new_process(char *name, int priority, int t0, int n, int *durations)
 {
   Process *process = calloc(1, sizeof(Process));
 
-  process->name = name;
-  process->pid = pid;
+  // Assign the name
+  process->name = calloc(256, sizeof(char));
+  for (int i = 0; i < sizeof(name) / sizeof(char); i++)
+  {
+    (process->name)[i] = name[i];
+  }
+
+  process->pid = 0;
   process->priority = priority;
   process->t0 = t0;
   process->state = Ready;
@@ -68,12 +35,11 @@ Process *new_process(char *name, int pid, int priority, int t0, int n, int *dura
   process->stats = new_stats();
 
   process->bursts = calloc(n, sizeof(Burst));
-  for (int i = 0; i < n; i++)
+  for (int i = 0; i < n * 2 - 1; i++)
   {
     BurstType type = i % 2 ? IO : CPU;
     Burst *burst = new_burst(type, durations[i]);
     process->bursts[i] = *burst;
-    free(burst);
   }
 
   return process;
@@ -88,3 +54,4 @@ void free_process(Process *process)
 
   free(process);
 }
+

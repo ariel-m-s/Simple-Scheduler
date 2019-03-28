@@ -2,11 +2,19 @@
 
 // STRUCTURES
 
-// Node structure [alias]
-typedef struct node Node;
+// Node structure
+typedef struct node
+{
+  Process *value;
+  struct node *next;
+} Node;
 
-// Queue structure [alias]
-typedef struct queue Queue;
+// Queue structure
+typedef struct queue
+{
+  Node *head;
+  Node *tail;
+} Queue;
 
 // FUNCTIONS
 
