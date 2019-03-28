@@ -89,7 +89,7 @@ Process *cycle(Queue *queue)
 void free_queue(Queue *queue)
 {
   Node *node = queue->head; // first Node
-  Node *aux_node = NULL;
+  Node *aux_node;
   // there are still Nodes to be freed
   while (node)
   {
