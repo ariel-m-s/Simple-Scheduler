@@ -57,8 +57,11 @@ dkms.conf
 # Test files
 *.txt
 
-# Enunciado
+# Enunciados
 *.pdf
 
-# VS Code
+# VS Code files
 *.vscode
+
+# Makefiles
+*Makefile
