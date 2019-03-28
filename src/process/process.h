@@ -36,6 +36,7 @@ typedef struct process
   int t0; // start time
   Burst *bursts;
   ProcessState state;
+  int curr_burst_runtime;
   Stats *stats;
 } Process;
 
