@@ -93,7 +93,7 @@ void sim_nonpreemptive(Queue *queue, int length)
   }
 }
 
-void sim_preemptive(Queue *queue)
+void sim_preemptive(Queue *queue, int length)
 {
 }
 
@@ -104,6 +104,12 @@ int main()
   {
     return 1;
   }
+
+  // NON-PREEMPTIVE
+  // sim_nonpreemptive(queue, queue->length);
+
+  // PREEMPTIVE
+  // sim_preemptive(queue, queue->length);
 
   return 0;
 }
