@@ -12,6 +12,7 @@ typedef enum burst_type
 // Process state enumeration
 typedef enum process_state
 {
+  Ghost,
   Ready,
   Running,
   Waiting,
