@@ -14,6 +14,7 @@ typedef struct queue
 {
   Node *head;
   Node *tail;
+  int length;
 } Queue;
 
 // FUNCTIONS

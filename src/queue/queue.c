@@ -26,8 +26,10 @@ void free_node(Node *node)
 Queue *new_queue()
 {
   Queue *queue = calloc(1, sizeof(Queue));
+
   queue->head = NULL;
   queue->tail = NULL;
+  queue->length = 0;
 
   return queue;
 }
@@ -36,6 +38,8 @@ Queue *new_queue()
 void add(Queue *queue, Process *process)
 {
   Node *node = new_node(process);
+
+  queue->length++;
 
   // queue is not empty
   if (queue->tail) // === queue->head
@@ -56,6 +60,9 @@ Process *pop(Queue *queue)
   // queue is not empty
   if (queue->head) // === queue->tail
   {
+
+    queue->length--;
+
     // queue is one node long
     if (queue->head == queue->tail)
     {
@@ -66,7 +73,9 @@ Process *pop(Queue *queue)
     queue->head = node->next;
 
     Process *process = node->value;
+
     free_node(node);
+
     return process;
   }
   // queue is empty
@@ -90,6 +99,7 @@ void free_queue(Queue *queue)
 {
   Node *node = queue->head; // first Node
   Node *aux_node;
+
   // there are still Nodes to be freed
   while (node)
   {
