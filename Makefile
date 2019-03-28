@@ -44,7 +44,7 @@ CFLAGS=-Wunused -Wall $(OPT)
 ###############################################################################
 
 # Directorios con elementos de uso común
-COMMON=io nonpreemptive preemptive process queue stats
+COMMON=io process queue stats
 
 # Directorios que serán compilados a un programa
 PROGRAMS=scheduler
