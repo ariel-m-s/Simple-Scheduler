@@ -24,8 +24,7 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   process->priority = priority;
   process->t0 = t0;
   process->N = 2 * n - 1;
-  process->state = Ready;
-  process->curr_burst = 0;
+  process->state = Ghost;
   process->stats = new_stats();
 
   // Assign the name
