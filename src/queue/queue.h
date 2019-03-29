@@ -39,3 +39,6 @@ Process *cycle(Queue *queue);
 
 // Frees a Queue [head]
 void free_queue(Queue *queue);
+
+// Prints a representation of a Queue [head]
+void print_queue(Queue * queue);

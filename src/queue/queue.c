@@ -109,3 +109,15 @@ void free_queue(Queue *queue)
 
   free(queue);
 }
+
+// Prints a representation of a Queue [def]
+void print_queue(Queue *queue)
+{
+  Node *node = queue->head; // first Node
+  // there are still Nodes to be printed
+  while (node)
+  {
+    printf("NODE '%s'(t0: %d)\n", node->value->name, node->value->t0);
+    node = node->next;
+  }
+}
