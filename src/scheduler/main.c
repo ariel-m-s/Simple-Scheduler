@@ -69,8 +69,6 @@ void sim_nonpreemptive(Queue *queue, int length)
         burst = (process->bursts)[process->curr_burst];
         burst->runtime++;
 
-        process->stats->turnaround_time++;
-
         // current CPU Burst is done
         if (burst->duration == burst->runtime)
         {
@@ -88,6 +86,8 @@ void sim_nonpreemptive(Queue *queue, int length)
           // Process has no Bursts left, thus it's over
           else
           {
+            process->stats->turnaround_time = t - process->t0;
+
             finished_count++;
             process->state = Finished;
 
@@ -109,7 +109,6 @@ void sim_nonpreemptive(Queue *queue, int length)
         burst->runtime++;
 
         process->stats->waiting_time++;
-        process->stats->turnaround_time++;
 
         // current I/O Burst is done
         if (burst->duration == burst->runtime)
