@@ -37,8 +37,11 @@ Process *pop(Queue *queue);
 // pop + add [head]
 Process *cycle(Queue *queue);
 
+// Sorts a Queue by Process' priority [head]
+void priority_sort(Queue *queue);
+
 // Frees a Queue [head]
 void free_queue(Queue *queue);
 
-// Prints a representation of a Queue [head]
+// Prints a representation of a Queue
 void print_queue(Queue * queue);

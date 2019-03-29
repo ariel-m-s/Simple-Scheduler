@@ -12,6 +12,7 @@ void sim_nonpreemptive(Queue *queue, int length)
   bool CPU_signal = false;
   bool CPU_available = true;
   int finished_count = 0;
+  int pid_count = 0;
 
   // not all Process' are FINISHED
   while (finished_count != length)
@@ -23,13 +24,22 @@ void sim_nonpreemptive(Queue *queue, int length)
       process = cycle(queue);
 
       // Process is GHOST
-      if (process->state == Ghost && process->t0 <= t && CPU_available)
+      if (process->state == Ghost && process->t0 <= t)
       {
+        if (!(process->pid))
+        {
+          pid_count++;
+          process->pid = pid_count;
+        }
+
+        if (CPU_available)
+        {
         process->stats->response_time = t - process->t0;
         process->stats->waiting_time += process->stats->response_time;
         process->state = Ready;
 
         printf("Process '%s' has been READY for %d seconds.\n", process->name, process->stats->response_time);
+        }
       }
 
       // Process is READY
@@ -142,8 +152,17 @@ int main()
   }
 
   // NON-PREEMPTIVE
-  print_queue(queue);
+  // print_queue(queue);
+  priority_sort(queue);
+  // print_queue(queue);
   sim_nonpreemptive(queue, queue->length);
+
+  Node *node = queue->head;
+  while(node)
+  {
+    print_stats(node->value);
+    node = node->next;
+  }
 
   // PREEMPTIVE
   // print_queue(queue);

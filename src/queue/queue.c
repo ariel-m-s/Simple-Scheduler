@@ -74,6 +74,7 @@ Process *pop(Queue *queue)
 
     Process *process = node->value;
 
+    // free the Node (but don't touch the Process)
     free(node);
 
     return process;
@@ -92,6 +93,48 @@ Process *cycle(Queue *queue)
   add(queue, process);
 
   return process;
+}
+
+// Sorts a Queue by Process' priority [def]
+void priority_sort(Queue *queue)
+{
+  Queue *sorted = new_queue();
+  Process *process;
+  int priority;
+  int i;
+
+  while(sorted->length != queue->length)
+  {
+    for (priority = 127; priority >= 0; priority--)
+    {
+      for (i = 0; i < queue->length; i++)
+      {
+        process = cycle(queue);
+
+        if (process->priority == priority)
+        {
+          add(sorted, process);
+        }
+      }
+    }
+  }
+
+  // free the old Nodes (but don't touch the Processes)
+  Node *node = queue->head;
+  Node *aux_node;
+  while(node)
+  {
+    aux_node = node->next;
+    free(node);
+    node = aux_node;
+  }
+
+  // insert the new (sorted) Nodes
+  queue->head = sorted->head;
+  queue->tail = sorted->tail;
+
+  // free "sorted" Queue (but don't touch the Nodes)
+  free(sorted);
 }
 
 // Frees a Queue [def]
