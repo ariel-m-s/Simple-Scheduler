@@ -35,12 +35,12 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   }
 
   // Assign the bursts
-  process->bursts = calloc(process->N, sizeof(Burst));
+  process->bursts = calloc(process->N, sizeof(Burst *));
   for (int i = 0; i < process->N; i++)
   {
-    BurstType type = i % 2 ? IO : CPU;
+    BurstType type = i % 2 == 1 ? IO : CPU;
     Burst *burst = new_burst(type, durations[i]);
-    process->bursts[i] = burst;
+    (process->bursts)[i] = burst;
   }
 
   return process;
@@ -50,9 +50,13 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
 void free_process(Process *process)
 {
   free(process->name);
-  free(process->bursts);
   free(process->stats);
+
+  for (int i = 0; i < process->N; i++)
+  {
+    free((process->bursts)[i]);
+  }
+  free(process->bursts);
 
   free(process);
 }
-
