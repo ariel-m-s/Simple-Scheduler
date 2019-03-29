@@ -78,7 +78,7 @@ void sim_nonpreemptive(Queue *queue, int length)
           CPU_signal = true;
 
           // Process has more Bursts left, thus it's not over
-          if (process->curr_burst < process->N)
+          if (process->curr_burst != process->N)
           {
             process->state = Waiting;
 
