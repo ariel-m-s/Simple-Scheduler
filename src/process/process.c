@@ -67,5 +67,5 @@ void free_process(Process *process)
 // Prints a representation of the Stats [def]
 void print_stats(Process *process)
 {
-  printf("%s, %d, %d, %d, %d, %d", process->name, process-stats->cpu_count, process-stats->interruption_count, process-stats->turnaround_time, process-stats->response_time, process-stats->waiting_time);
+  printf("%s, %d, %d, %d, %d, %d", process->name, process->stats->cpu_count, process->stats->interruption_count, process->stats->turnaround_time, process->stats->response_time, process->stats->waiting_time);
 }
