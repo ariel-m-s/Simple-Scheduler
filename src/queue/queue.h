@@ -38,7 +38,7 @@ Process *pop(Queue *queue);
 Process *cycle(Queue *queue);
 
 // Sorts a Queue by Process' priority [head]
-void priority_sort(Queue *queue);
+Queue *priority_sort(Queue *queue);
 
 // Frees a Queue [head]
 void free_queue(Queue *queue);

@@ -1,9 +1,10 @@
 #include "../io/io.h"
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 
-void sim_nonpreemptive(Queue *queue, int length)
+void simulate(Queue *queue, int length, int quantum)
 {
   Process *process;
   Burst *burst;
@@ -18,6 +19,8 @@ void sim_nonpreemptive(Queue *queue, int length)
   while (finished_count != length)
   {
     printf("\nT = %d:\n", t);
+
+    // cycle(queue);
 
     for (i = 0; i < length; i++)
     {
@@ -34,11 +37,11 @@ void sim_nonpreemptive(Queue *queue, int length)
 
         if (CPU_available)
         {
-        process->stats->response_time = t - process->t0;
-        process->stats->waiting_time += process->stats->response_time;
-        process->state = Ready;
+          process->stats->response_time = t - process->t0;
+          process->stats->waiting_time += process->stats->response_time;
+          process->state = Ready;
 
-        printf("Process '%s' has been READY for %d seconds.\n", process->name, process->stats->response_time);
+          printf("Process '%s' has been READY for %d seconds.\n", process->name, process->stats->response_time);
         }
       }
 
@@ -60,7 +63,6 @@ void sim_nonpreemptive(Queue *queue, int length)
         {
           process->stats->waiting_time++;
         }
-
       }
 
       // Process is RUNNING
@@ -69,11 +71,31 @@ void sim_nonpreemptive(Queue *queue, int length)
         burst = (process->bursts)[process->curr_burst];
         burst->runtime++;
 
+        if (quantum)
+        {
+          process->CPU_time++;
+
+          if (process->CPU_time == quantum)
+          {
+            process->stats->interruption_count++;
+            process->CPU_time = 0;
+            CPU_signal = true;
+            process->state = Ready;
+
+            printf("Process '%s' was INTERRUPTED after %d seconds of RUNNING.\n", process->name, burst->runtime);
+          }
+        }
+
         // current CPU Burst is done
         if (burst->duration == burst->runtime)
         {
           process->curr_burst++;
           CPU_signal = true;
+
+          if (quantum)
+          {
+            process->CPU_time = 0;
+          }
 
           // Process has more Bursts left, thus it's not over
           if (process->curr_burst != process->N)
@@ -124,7 +146,6 @@ void sim_nonpreemptive(Queue *queue, int length)
         {
           printf("Process '%s' has been WAITING for %d seconds.\n", process->name, burst->runtime);
         }
-
       }
     }
 
@@ -138,36 +159,37 @@ void sim_nonpreemptive(Queue *queue, int length)
   }
 }
 
-void sim_preemptive(Queue *queue, int length)
+int main(int argc, char **argv)
 {
-}
 
-int main()
-{
-  Queue *queue = load_queue("data/test1.txt", 1024);
+  printf("\nLOADING PROCESSES...\n");
+  Queue *queue = load_queue(argv[1], 1024);
   if (!queue)
   {
     return 1;
   }
 
-  // NON-PREEMPTIVE
-  // print_queue(queue);
-  priority_sort(queue);
-  // print_queue(queue);
-  sim_nonpreemptive(queue, queue->length);
+  print_queue(queue);
+  Queue *sorted = priority_sort(queue);
 
-  Node *node = queue->head;
-  while(node)
-  {
-    print_stats(node->value);
-    node = node->next;
-  }
+  int quantum = argv[3][0] == 'p' ? atoi(argv[4]) : 0;
+  simulate(sorted, sorted->length, quantum);
 
-  // PREEMPTIVE
-  // print_queue(queue);
-  // sim_preemptive(queue, queue->length);
+  printf("\n\n");
+
+  dump_results(sorted, queue, argv[2]);
 
   free_queue(queue);
+
+  Node *node = sorted->head;
+  Node *aux_node;
+  while (node)
+  {
+    aux_node = node->next;
+    free(node);
+    node = aux_node;
+  }
+  free(sorted);
 
   return 0;
 }

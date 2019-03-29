@@ -10,36 +10,24 @@
 Process *load_process(char *str)
 {
 
-  printf("LOADING PROCESS...\n");
-
   char *delim = " ";
 
   char *ptr = strtok(str, delim);
-
-  printf("name: '%s'\n", ptr);
   char *name = ptr;
 
   ptr = strtok(NULL, delim);
-
-  printf("priority: '%s'\n", ptr);
   int priority = atoi(ptr);
 
   ptr = strtok(NULL, delim);
-
-  printf("t0: '%s'\n", ptr);
   int t0 = atoi(ptr);
 
   ptr = strtok(NULL, delim);
-
-  printf("n: '%s'\n", ptr);
   int n = atoi(ptr);
 
   int durations[n * 2 - 1];
   for (int i = 0; i < n * 2 - 1; i++)
   {
     ptr = strtok(NULL, delim);
-
-    printf("duration #%d: '%s'\n", i, ptr);
     durations[i] = atoi(ptr);
   }
 
@@ -53,27 +41,50 @@ Queue *load_queue(char *path, int max)
 {
 
   char str[max];
-  FILE *fp = fopen(path, "r");
+  FILE *file = fopen(path, "r");
 
-  if (!fp)
+  if (!file)
   {
-    printf("Error al abrir '%s'", path);
+    printf("ERROR when opening '%s'", path);
     return NULL;
   }
 
   Queue *queue = new_queue();
-  while (fgets(str, max, fp))
+  while (fgets(str, max, file))
   {
     add(queue, load_process(str));
   }
 
-  fclose(fp);
+  fclose(file);
 
   return queue;
 }
 
-// Writes the output file [def]
-void dump(int n)
+// Dumps a string representation of the Stats [def]
+void dump_stats(FILE *file, Process *process)
 {
-  ;
+  fprintf(file, "%s,%d,%d,%d,%d,%d\n", process->name, process->stats->cpu_count, process->stats->interruption_count, process->stats->turnaround_time, process->stats->response_time, process->stats->waiting_time);
+}
+
+// Writes the output file [def]
+void dump_results(Queue *results, Queue *original, char *path)
+{
+
+  FILE *file = fopen(path, "a");
+  Process *process;
+
+  int i = 0;
+  while (i < results->length)
+  {
+    process = cycle(results);
+
+    if (process->name == original->head->value->name)
+    {
+      dump_stats(file, process);
+      cycle(original);
+      i++;
+    }
+  }
+
+  fclose(file);
 }

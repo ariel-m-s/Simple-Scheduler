@@ -54,6 +54,3 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations);
 
 // Frees a Process [head]
 void free_process(Process *process);
-
-// Prints a representation of the Stats [head]
-void print_stats(Process *stats);

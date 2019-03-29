@@ -96,7 +96,7 @@ Process *cycle(Queue *queue)
 }
 
 // Sorts a Queue by Process' priority [def]
-void priority_sort(Queue *queue)
+Queue *priority_sort(Queue *queue)
 {
   Queue *sorted = new_queue();
   Process *process;
@@ -119,22 +119,7 @@ void priority_sort(Queue *queue)
     }
   }
 
-  // free the old Nodes (but don't touch the Processes)
-  Node *node = queue->head;
-  Node *aux_node;
-  while(node)
-  {
-    aux_node = node->next;
-    free(node);
-    node = aux_node;
-  }
-
-  // insert the new (sorted) Nodes
-  queue->head = sorted->head;
-  queue->tail = sorted->tail;
-
-  // free "sorted" Queue (but don't touch the Nodes)
-  free(sorted);
+  return sorted;
 }
 
 // Frees a Queue [def]
