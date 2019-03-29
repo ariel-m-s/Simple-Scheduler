@@ -5,9 +5,9 @@ typedef struct
 {
   int cpu_count;
   int interruption_count;
-  float turnaround_time;
-  float response_time;
-  float waiting_time;
+  int turnaround_time;
+  int response_time;
+  int waiting_time;
 } Stats;
 
 // FUNCTIONS
