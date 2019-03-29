@@ -172,7 +172,16 @@ int main(int argc, char **argv)
   print_queue(queue);
   Queue *sorted = priority_sort(queue);
 
-  int quantum = argv[3][0] == 'p' ? atoi(argv[4]) : 0;
+  int quantum;
+  if (argv[3][0] == 'p')
+  {
+    quantum = 0;
+  }
+  else if (argv[3][0] == 'n')
+  {
+    quantum = argc > 4 ? atoi(argv[4]) : 3;
+  }
+
   simulate(sorted, sorted->length, quantum);
 
   printf("\n\n");
