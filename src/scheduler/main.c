@@ -15,11 +15,11 @@ void sim_nonpreemptive(Queue *queue, int length)
   // not all Process' are FINISHED
   while (finished_count != length)
   {
+    printf("\nT = %d:\n", t);
 
     for (i = 0; i < length; i++)
     {
       process = cycle(queue);
-      burst = (process->bursts)[process->curr_burst];
 
       // Process is GHOST
       if (process->state == Ghost && process->t0 >= t && CPU_available)
@@ -28,6 +28,8 @@ void sim_nonpreemptive(Queue *queue, int length)
         process->stats->waiting_time += process->stats->response_time;
         process->curr_burst = 0;
         process->state = Ready;
+
+        printf("Process '%s' is READY.\n", process->name);
       }
 
       // Process is READY
@@ -35,21 +37,28 @@ void sim_nonpreemptive(Queue *queue, int length)
       {
         process->state = Running;
         process->stats->cpu_count++;
+        CPU_available = false;
+
+        printf("Process '%s' is RUNNING.\n", process->name);
       }
 
       // Process is RUNNING
       if (process->state == Running)
       {
+        burst = (process->bursts)[process->curr_burst];
 
         // current CPU Burst is done
         if (burst->duration == burst->runtime)
         {
           process->curr_burst++;
+          CPU_available = true;
 
           // Process has more Bursts left, thus it's not over
           if (process->curr_burst < process->N)
           {
             process->state = Waiting;
+
+            printf("Process '%s' is WAITING.\n", process->name);
           }
 
           // Process has no Bursts left, thus it's over
@@ -57,6 +66,8 @@ void sim_nonpreemptive(Queue *queue, int length)
           {
             process->state = Finished;
             finished_count++;
+
+            printf("Process '%s' is FINISHED.\n", process->name);
           }
         }
 
@@ -65,18 +76,23 @@ void sim_nonpreemptive(Queue *queue, int length)
         {
           burst->runtime++;
           process->stats->turnaround_time++;
+
+          printf("Process '%s' is still RUNNING.\n", process->name);
         }
       }
 
       // Process is WAITING
       else if (process->state == Waiting)
       {
+        burst = (process->bursts)[process->curr_burst];
 
         // current I/O Burst is done
         if (burst->duration == burst->runtime)
         {
           process->curr_burst++;
           process->state = Ready;
+
+          printf("Process '%s' is READY.\n", process->name);
         }
 
         // current I/O Burst is not done yet
@@ -85,6 +101,8 @@ void sim_nonpreemptive(Queue *queue, int length)
           burst->runtime++;
           process->stats->turnaround_time++;
           process->stats->waiting_time++;
+
+          printf("Process '%s' is still WAITING.\n", process->name);
         }
       }
     }
@@ -106,10 +124,12 @@ int main()
   }
 
   // NON-PREEMPTIVE
-  // sim_nonpreemptive(queue, queue->length);
+  sim_nonpreemptive(queue, queue->length);
 
   // PREEMPTIVE
   // sim_preemptive(queue, queue->length);
+
+  free_queue(queue);
 
   return 0;
 }

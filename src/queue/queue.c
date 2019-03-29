@@ -66,7 +66,7 @@ Process *pop(Queue *queue)
     // queue is one node long
     if (queue->head == queue->tail)
     {
-      queue->tail = NULL;gst
+      queue->tail = NULL;
     }
 
     Node *node = queue->head;
