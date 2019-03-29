@@ -39,8 +39,8 @@ Process *load_process(char *str)
   {
     ptr = strtok(NULL, delim);
 
-    printf("duration #%d: '%s'\n", i, ptr);
-    durations[i] = atoi(str);
+    printf("duration #%d: '%s\n", i, ptr);
+    durations[i] = atoi(ptr);
   }
 
   printf("\n");
