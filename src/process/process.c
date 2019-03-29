@@ -9,8 +9,10 @@
 Burst *new_burst(BurstType type, int duration)
 {
   Burst *burst = calloc(1, sizeof(Burst));
+
   burst->type = type;
   burst->duration = duration;
+  burst->runtime = 0;
 
   return burst;
 }
