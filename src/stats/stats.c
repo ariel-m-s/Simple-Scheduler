@@ -1,6 +1,7 @@
 #include "stats.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 // FUNCTIONS
 

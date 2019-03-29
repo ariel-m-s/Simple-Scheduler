@@ -1,7 +1,7 @@
 // STRUCTURES
 
 // Stats structure
-typedef struct
+typedef struct stats
 {
   int cpu_count;
   int interruption_count;
