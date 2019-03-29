@@ -41,6 +41,7 @@ typedef struct process
   ProcessState state;
   int curr_burst;
   Stats *stats;
+  int CPU_time;
 } Process;
 
 // FUNCTIONS

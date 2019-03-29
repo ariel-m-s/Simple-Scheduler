@@ -29,6 +29,7 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   process->N = 2 * n - 1;
   process->state = Ghost;
   process->stats = new_stats();
+  process->CPU_time = 0;
 
   // Assign the name
   process->name = calloc(256, sizeof(char));
