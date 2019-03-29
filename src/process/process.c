@@ -25,6 +25,7 @@ Process *new_process(char *name, int priority, int t0, int n, int *durations)
   process->pid = 0;
   process->priority = priority;
   process->t0 = t0;
+  process->curr_burst = 0;
   process->N = 2 * n - 1;
   process->state = Ghost;
   process->stats = new_stats();
@@ -61,4 +62,10 @@ void free_process(Process *process)
   free(process->bursts);
 
   free(process);
+}
+
+// Prints a representation of the Stats [def]
+void print_stats(Process *process)
+{
+  printf("%s, %d, %d, %d, %d, %d", process->name, process-stats->cpu_count, process-stats->interruption_count, process-stats->turnaround_time, process-stats->response_time, process-stats->waiting_time);
 }
