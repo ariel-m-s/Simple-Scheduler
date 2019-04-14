@@ -31,7 +31,7 @@ Process *load_process(char *str)
     durations[i] = atoi(ptr);
   }
 
-  printf("\n");
+  // printf("\n");
 
   return new_process(name, priority, t0, n, durations);
 }
@@ -70,7 +70,7 @@ void dump_stats(FILE *file, Process *process)
 void dump_results(Queue *results, Queue *original, char *path)
 {
 
-  FILE *file = fopen(path, "a");
+  FILE *file = fopen(path, "w");
   Process *process;
 
   int i = 0;

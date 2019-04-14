@@ -1,0 +1,115 @@
+% Plantilla para documentos LaTeX para enunciados
+% Por Pedro Pablo Aste Kompen - ppaste@uc.cl
+% Licencia Creative Commons BY-NC-SA 3.0
+% http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+\documentclass[12pt]{article}
+
+% Margen de 1 pulgada por lado
+\usepackage{fullpage}
+% Incluye gráficas
+\usepackage{graphicx}
+% Packages para matemáticas, por la American Mathematical Society
+\usepackage{amssymb}
+\usepackage{amsmath}
+% Desactivar hyphenation
+\usepackage[none]{hyphenat}
+% Saltar entre párrafos - sin sangrías
+\usepackage{parskip}
+% Español y UTF-8
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+% Links en el documento
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\setlength{\headheight}{15.2pt}
+\setlength{\headsep}{5pt}
+\pagestyle{fancy}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Exp}[1]{\mathcal{E}_{#1}}
+\newcommand{\List}[1]{\mathcal{L}_{#1}}
+\newcommand{\EN}{\Exp{\N}}
+\newcommand{\LN}{\List{\N}}
+
+\newcommand{\comment}[1]{}
+\newcommand{\lb}{\\~\\}
+\newcommand{\eop}{_{\square}}
+\newcommand{\hsig}{\hat{\sigma}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+\newcommand{\tri}{\triangle}
+\newcommand{\obp}{\big(}
+\newcommand{\cbp}{\big)}
+\newcommand{\ovbp}{\Big(}
+\newcommand{\cvbp}{\Big)}
+\newcommand{\sm}{\setminus}
+\newcommand{\defeq}{\doteq}
+\newcommand{\comp}[1]{{#1}^{c}}
+\newcommand{\hddef}[4]{#3 #1 \sm #2 #4 \cup #3 #2 \sm #1 #4}
+\newcommand{\al}[1]{& #1 \\}
+\newcommand{\pwrset}[1]{\mathcal{P} ( #1 )}
+\newcommand{\wholenums}{\mathbb{Z}}
+
+% Cambiar por nombre completo + número de alumno
+\newcommand{\alumno}{Ariel Martínez Silberstein - 1662274J}
+\rhead{Reporte Tarea 1 - \alumno}
+
+\begin{document}
+\thispagestyle{empty}
+% Membrete
+% PUC-ING-DCC-IIC1103
+\begin{minipage}{2.3cm}
+\includegraphics[width=2cm]{img/logo.pdf}
+\vspace{0.5cm} % Altura de la corona del logo, así el texto queda alineado verticalmente con el círculo del logo.
+\end{minipage}
+\begin{minipage}{\linewidth}
+\textsc{\raggedright \footnotesize
+Pontificia Universidad Católica de Chile \\
+Departamento de Ciencia de la Computación \\
+IIC2333 - Sistemas Operativos y Redes \\}
+\end{minipage}
+
+% Titulo
+\begin{center}
+\vspace{0.5cm}
+{\huge\bf Reporte Tarea 1}\\
+\vspace{0.2cm}
+\today\\
+\vspace{0.2cm}
+\footnotesize{1º semestre 2019 - Profesor Cristian Ruz}\\
+\vspace{0.2cm}
+\footnotesize{\alumno}
+\rule{\textwidth}{0.05mm}
+\end{center}
+
+\section*{1.}
+
+Sí. Uno de los problemas que podrían existir con el \textit{preemptive scheduling} es la inanición (o \textit{starvation}, en inglés) de procesos de menor prioridad.
+
+Esto sucedería en el caso en el que exista un proceso de baja prioridad —en relación a los otros procesos presentes en la cola—; este proceso podría demorarse una cantidad de tiempo arbitrariamente grande en terminar de ejecutar, pues la frecuencia con la que el sistema operativo le asigna tiempo de ejecución sería muy baja.
+
+Una manera en la que esto podría mejorar sería respetar un protocolo en el que el sistema operativo asigne prioridades dinámicas a los procesos de la cola de ejecución. Una posible aproximación sería disminuirle la prioridad a los procesos que lleven mucho tiempo ejecutando una misma ráfaga (\textit{burst}) de CPU.
+
+
+\section*{2.}
+
+Existen diversas maneras de extender la implementación para que funcione en un sistema \textit{multicore}.
+
+Para ambos tipos de \textit{scheduling}, se podría tener una sola cola de ejecución en la que a cada proceso se le asigne una CPU a medida que estas se van desocupando —ya sea por interrupciones o por ráfagas de I/O. Otra posible aproximación sería contar con una cola por núcleo.
+
+Sería correcto inferir que tanto el \textit{turnaround time} como el \textit{response time} disminuirían, pues existe un mayor número de ``líneas de atención"\ hacia las cuales el sistema operativo puede derivar a los distintos procesos o, visto desde otra perspectiva, cada núcleo debe atender a menos procesos.
+
+Por otro lado, el \textit{waiting time} también disminuiría, pues, de acuerdo con la misma explicación, los procesos pasarían menos tiempo en estado \textit{READY} (esto es de particular importancia en el \textit{preemptive scheduling} porque ocurrirían menos bloqueos). Sin embargo, el tiempo en estado \textit{WAITING} se mantendría igual, pues viene determinado únicamente por el usuario.
+
+\section*{3.}
+
+En un sistema interactivo el \textit{response time} juega un papel importantísimo. Este permite que el usuario sienta \textit{feedback} al interactuar con el computador. En este contexto, cuando uno solicita al sistema operativo correr un programa, es crucial que este comience su ejecución lo antes posible.
+
+Un algoritmo de \textit{preemptive scheduling} es mejor que un algoritmo de \textit{non-preemptive scheduling} para el caso de un sistema interactivo, pues la mayoría de las veces logra reducir siginificativamente el \textit{response time}.
+
+El \textit{preemptive scheduling} no permite que haya un mismo proceso utilizando la CPU por un período de tiempo demasiado largo, lo cual resulta en una rotación de procesos mucho más veloz. Mediante este algoritmo, un proceso nuevo esperará menos tiempo en la cola de ejecución hasta ``ser atendido"\ por una CPU que en el caso de \textit{non-preemptive scheduling}, en el que un proceso puede ``tomarse todo el tiempo que quiera"\ en una ráfaga de CPU.
+
+
+\end{document}

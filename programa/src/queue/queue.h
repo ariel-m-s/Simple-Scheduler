@@ -37,8 +37,14 @@ Process *pop(Queue *queue);
 // pop + add [head]
 Process *cycle(Queue *queue);
 
-// Sorts a Queue by Process' priority [head]
-Queue *priority_sort(Queue *queue);
+// Assigns each process a PID according to its t0 [head]
+void assign_pids(Queue *queue);
+
+// Returns a Queue sorted by Priority and then by PID [def]
+Queue *sorted_queue(Queue *queue);
+
+// // Sorts a Queue by Process' priority [head]
+// Queue *priority_sort(Queue *queue);
 
 // Frees a Queue [head]
 void free_queue(Queue *queue);
