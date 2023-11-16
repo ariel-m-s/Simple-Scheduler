@@ -8,13 +8,13 @@ This repository contains the source code for an operating system (Unix-like) sch
 
 The project is organized into several modules:
 
-1. ``io`
+1. `io`
    
 Contains the input/output functionality for reading and writing process data. Implements functions to load processes from an input file, dump statistics to an output file, and read process queues.
 
 2.`process`
 
-Defines the structures for bursts and processes and functions to initialize, free, and manipulate them.
+Defines the structures for bursts and processes, and defines functions to initialize, free, and manipulate them.
 
 3. `queue`
 
