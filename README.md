@@ -1,4 +1,4 @@
-# OS Scheduler implementation in C
+# OS scheduler implementation in C
 
 ## Overview
 
